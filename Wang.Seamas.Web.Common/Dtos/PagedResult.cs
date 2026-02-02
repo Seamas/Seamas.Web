@@ -1,4 +1,4 @@
-namespace Wang.Seamas.Web.Common;
+namespace Wang.Seamas.Web.Common.Dtos;
 
 /// <summary>
 /// 分页查询结果

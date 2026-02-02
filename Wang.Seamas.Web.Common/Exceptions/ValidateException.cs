@@ -1,4 +1,4 @@
-namespace Wang.Seamas.Web.Common;
+namespace Wang.Seamas.Web.Common.Exceptions;
 
 /// <summary>
 /// 验证异常

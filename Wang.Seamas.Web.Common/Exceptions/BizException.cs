@@ -1,4 +1,4 @@
-namespace Wang.Seamas.Web.Common;
+namespace Wang.Seamas.Web.Common.Exceptions;
 
 public class BizException(string message, int code = 400, Exception? innerException = null )
     : Exception(message, innerException)

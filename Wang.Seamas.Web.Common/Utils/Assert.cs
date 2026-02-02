@@ -1,4 +1,6 @@
-namespace Wang.Seamas.Web.Common;
+using Wang.Seamas.Web.Common.Exceptions;
+
+namespace Wang.Seamas.Web.Common.Utils;
 
 /// <summary>
 /// 断言判断工具

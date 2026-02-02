@@ -8,9 +8,11 @@
 
         <RootNamespace>Wang.Seamas.Web</RootNamespace>
         <LangVersion>13.0</LangVersion>
+        
+        <IsPackable>true</IsPackable>
 
         <packageId>Wang.Seamas.Web</packageId>
-        <Version>0.1.0</Version>
+        <Version>0.2.0</Version>
         <Authors>Seamas Wang</Authors>
         <Description>web component</Description>
         <PackageProjectUrl>https://github.com/Seamas/Seamas.Web</PackageProjectUrl>
@@ -20,6 +22,10 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Wang.Seamas.Web.Common\Wang.Seamas.Web.Common.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.15.0" />
     </ItemGroup>
 
 </Project>

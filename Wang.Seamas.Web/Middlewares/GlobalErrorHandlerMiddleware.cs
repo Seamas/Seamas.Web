@@ -1,4 +1,6 @@
 using Wang.Seamas.Web.Common;
+using Wang.Seamas.Web.Common.Dtos;
+using Wang.Seamas.Web.Common.Exceptions;
 
 namespace Wang.Seamas.Web.Middlewares;
 
@@ -32,6 +34,7 @@ public class GlobalErrorHandlerMiddleware(RequestDelegate next, ILogger<GlobalEr
             {
                 ValidateException validateException => ApiResult.Fail(validateException.Message),
                 BizException bizException => ApiResult.Fail(bizException.Message),
+                AuthException authException => ApiResult.Fail(authException.Message, 400),
                 _ => ApiResult.Fail("An unexpected error occurred.")
             };
             await context.Response.WriteAsJsonAsync(result);

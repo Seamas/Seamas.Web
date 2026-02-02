@@ -1,5 +1,7 @@
 using System.Security.Claims;
 using Microsoft.Extensions.Options;
+using Wang.Seamas.Web.Common;
+using Wang.Seamas.Web.Common.Exceptions;
 using Wang.Seamas.Web.Services;
 using Wang.Seamas.Web.Services.Model;
 
@@ -9,10 +11,12 @@ public class CustomAuthenticationMiddleware(
     RequestDelegate next,
     ITokenService tokenService,
     IOptions<CustomAuthOptions> options,
-    ITokenBlocklistService tokenBlocklistService,
+    IServiceProvider serviceProvider,
     ILogger<CustomAuthenticationMiddleware> logger)
 {
     private readonly CustomAuthOptions _options = options.Value;
+    private readonly ITokenBlocklistService? _tokenBlocklistService = serviceProvider.GetService<ITokenBlocklistService>();
+    private readonly ITokenVersionService? _tokenVersionService = serviceProvider.GetService<ITokenVersionService>();
 
     public async Task InvokeAsync(HttpContext context)
     {
@@ -24,7 +28,12 @@ public class CustomAuthenticationMiddleware(
             try
             {
                 // 验证 token 是否被加入黑名单
-                var isBlocked = await tokenBlocklistService.IsTokenBlocklistedAsync(token);
+                var isBlocked = false;
+                if (_tokenBlocklistService != null)
+                {
+                    isBlocked = await _tokenBlocklistService.IsTokenBlocklistedAsync(token);
+                }
+                
                 if (isBlocked)
                 {
                     logger.LogWarning("Token 已被加入黑名单，拒绝访问");
@@ -36,34 +45,39 @@ public class CustomAuthenticationMiddleware(
 
                 // 2. 验证 token
                 var authResult = tokenService.ValidateToken(token);
-
-                if (authResult != null && authResult.IsAuthenticated)
+                
+                if (authResult is { IsAuthenticated: true })
                 {
+                    if (_tokenVersionService != null)
+                    {
+                        var version = await _tokenVersionService.GetCurrentVersionAsync(authResult.UserId);
+                        if (authResult.Version < version)
+                        {
+                            logger.LogError($"token 版本已经过期");
+                            throw new AuthException("token 版本已经过期");
+
+                        }
+                    }
+                    
                     // 3. 创建 ClaimsPrincipal 并设置到 HttpContext.User
                     var principal = CreateClaimsPrincipal(authResult); 
                     context.User = principal;
 
                     // 4. 将认证信息也存储到 Items 中供后续中间件使用
                     context.Items["AuthResult"] = authResult;
+                    await next(context);
+                    return;
                 }
-                else
-                {
-                    logger.LogWarning("Token 验证失败");
-                    await SetUnauthenticated(context);
-                }
+
+                logger.LogWarning("Token 验证失败");
             }
             catch (Exception ex)
             {
                 logger.LogError(ex, "认证过程中发生错误");
-                await SetUnauthenticated(context);
             }
         }
-        else
-        {
-            // 没有 token，设置为未认证状态
-            await SetUnauthenticated(context);
-        }
-
+        
+        await SetUnauthenticated(context);
         // 5. 调用下一个中间件
         await next(context);
     }
@@ -115,7 +129,6 @@ public class CustomAuthenticationMiddleware(
         // 创建一个匿名用户标识
         var anonymousIdentity = new ClaimsIdentity();
         context.User = new ClaimsPrincipal(anonymousIdentity);
-        
-        // 可以添加一些额外的处理，比如记录日志等
+        await Task.CompletedTask;
     }
 }

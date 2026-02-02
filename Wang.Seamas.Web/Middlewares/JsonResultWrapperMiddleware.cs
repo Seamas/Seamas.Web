@@ -1,5 +1,5 @@
 using System.Text.Json;
-using Wang.Seamas.Web.Common;
+using Wang.Seamas.Web.Common.Dtos;
 
 namespace Wang.Seamas.Web.Middlewares;
 
