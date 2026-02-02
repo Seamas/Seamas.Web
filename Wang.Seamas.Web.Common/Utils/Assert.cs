@@ -21,12 +21,12 @@ public class Assert
 
     #region 使用默认异常类型的断言方法
 
-    public static void IsNull(object obj, string message)
+    public static void IsNull(object? obj, string message)
     {
         IsNull(obj, message, ExceptionFunc);
     }
 
-    public static void NotNull(object obj, string message)
+    public static void NotNull(object? obj, string message)
     {
         NotNull(obj, message, ExceptionFunc);
     }
@@ -65,7 +65,7 @@ public class Assert
 
     #region 使用自定义异常类型的断言方法
 
-    public static void IsNull(object obj, string message, Func<string, Exception> func)
+    public static void IsNull(object? obj, string message, Func<string, Exception> func)
     {
         if (obj != null)
         {
@@ -73,7 +73,7 @@ public class Assert
         }
     }
 
-    public static void NotNull(object obj, string message, Func<string, Exception> func)
+    public static void NotNull(object? obj, string message, Func<string, Exception> func)
     {
         if (obj == null)
         {
