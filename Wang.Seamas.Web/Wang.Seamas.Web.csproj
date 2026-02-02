@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <OutputType>Library</OutputType>
+
+        <RootNamespace>Wang.Seamas.Web</RootNamespace>
+        <LangVersion>13.0</LangVersion>
+
+        <packageId>Wang.Seamas.Web</packageId>
+        <Version>0.1.0</Version>
+        <Authors>Seamas Wang</Authors>
+        <Description>web component</Description>
+        <PackageProjectUrl>https://github.com/Seamas/Seamas.Web</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Seamas/Seamas.Web</RepositoryUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Wang.Seamas.Web.Common\Wang.Seamas.Web.Common.csproj" />
+    </ItemGroup>
+
+</Project>
