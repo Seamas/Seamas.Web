@@ -1,6 +1,6 @@
 using System.Security.Claims;
 using Microsoft.Extensions.Options;
-using Wang.Seamas.Web.Common;
+using Microsoft.IdentityModel.Tokens;
 using Wang.Seamas.Web.Common.Exceptions;
 using Wang.Seamas.Web.Services;
 using Wang.Seamas.Web.Services.Model;
@@ -23,29 +23,29 @@ public class CustomAuthenticationMiddleware(
         // 1. 尝试从请求中获取 token
         var token = ExtractToken(context.Request);
 
+        // 只要 token 不为空就进行验证, 如果验证不通过就抛出异常
         if (!string.IsNullOrEmpty(token))
         {
+            // 验证 token 是否被加入黑名单
+            var isBlocked = false;
+            if (_tokenBlocklistService != null)
+            {
+                isBlocked = await _tokenBlocklistService.IsTokenBlocklistedAsync(token);
+            }
+            
+            if (isBlocked)
+            {
+                logger.LogWarning("Token 已被加入黑名单，拒绝访问");
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                return;
+            }
+
             try
             {
-                // 验证 token 是否被加入黑名单
-                var isBlocked = false;
-                if (_tokenBlocklistService != null)
-                {
-                    isBlocked = await _tokenBlocklistService.IsTokenBlocklistedAsync(token);
-                }
-                
-                if (isBlocked)
-                {
-                    logger.LogWarning("Token 已被加入黑名单，拒绝访问");
-                    await SetUnauthenticated(context);
-                    
-                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                    return;
-                }
 
                 // 2. 验证 token
                 var authResult = tokenService.ValidateToken(token);
-                
+
                 if (authResult is { IsAuthenticated: true })
                 {
                     if (_tokenVersionService != null)
@@ -54,13 +54,13 @@ public class CustomAuthenticationMiddleware(
                         if (authResult.Version < version)
                         {
                             logger.LogError($"token 版本已经过期");
-                            throw new AuthException("token 版本已经过期");
+                            throw new AuthException("token已经失效");
 
                         }
                     }
-                    
+
                     // 3. 创建 ClaimsPrincipal 并设置到 HttpContext.User
-                    var principal = CreateClaimsPrincipal(authResult); 
+                    var principal = CreateClaimsPrincipal(authResult);
                     context.User = principal;
 
                     // 4. 将认证信息也存储到 Items 中供后续中间件使用
@@ -68,12 +68,17 @@ public class CustomAuthenticationMiddleware(
                     await next(context);
                     return;
                 }
-
-                logger.LogWarning("Token 验证失败");
+                
+                throw new AuthException("无效的token");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "认证过程中发生错误");
+                if (ex is SecurityTokenExpiredException)
+                {
+                    throw new AuthException("token 已过期");
+                }
+
+                throw;
             }
         }
         

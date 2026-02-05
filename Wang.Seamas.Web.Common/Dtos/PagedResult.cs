@@ -19,7 +19,7 @@ public class PagedResult<T>
     /// <summary>
     /// 当前页码（从 1 开始）
     /// </summary>
-    public int Page { get; set; }
+    public int PageIndex { get; set; }
 
     /// <summary>
     /// 每页大小
@@ -34,23 +34,23 @@ public class PagedResult<T>
     /// <summary>
     /// 是否有上一页
     /// </summary>
-    public bool HasPreviousPage => Page > 1;
+    public bool HasPreviousPage => PageIndex > 1;
 
     /// <summary>
     /// 是否有下一页
     /// </summary>
-    public bool HasNextPage => Page < TotalPages;
+    public bool HasNextPage => PageIndex < TotalPages;
 
     // 构造函数（可选）
     public PagedResult()
     {
     }
 
-    public PagedResult(List<T> items, long totalCount, int page = 1, int pageSize = 10)
+    public PagedResult(List<T> items, long totalCount, int pageIndex = 1, int pageSize = 10)
     {
         Items = items ?? new List<T>();
         TotalCount = totalCount;
-        Page = page;
+        PageIndex = pageIndex;
         PageSize = pageSize;
     }
 }

@@ -12,7 +12,7 @@
         <IsPackable>true</IsPackable>
 
         <packageId>Wang.Seamas.Web</packageId>
-        <Version>0.2.2</Version>
+        <Version>0.2.3</Version>
         <Authors>Seamas Wang</Authors>
         <Description>web component</Description>
         <PackageProjectUrl>https://github.com/Seamas/Seamas.Web</PackageProjectUrl>

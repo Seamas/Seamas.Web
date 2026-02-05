@@ -10,4 +10,6 @@ public static class MiddlewareExtension
     public static IApplicationBuilder UseGlobalErrorHandlerMiddleware(this IApplicationBuilder builder) => builder.UseMiddleware<GlobalErrorHandlerMiddleware>();
     
     public static IApplicationBuilder UseJsonResultWrapperMiddleware(this IApplicationBuilder builder) => builder.UseMiddleware<JsonResultWrapperMiddleware>();
+    
+    public static IApplicationBuilder UseCustomAuthentication(this IApplicationBuilder builder) => builder.UseMiddleware<CustomAuthenticationMiddleware>();
 }
