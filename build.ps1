@@ -1,6 +1,6 @@
 $OutputDir = "./nupkgs"
 $sln = "Wang.Seamas.Web"
-$projects = @("Wang.Seamas.Web.Common")
+$projects = @("Wang.Seamas.Web.Common", "Wang.Seamas.Web")
 
 # 删除指定目录
 if (Test-Path $OutputDir) {

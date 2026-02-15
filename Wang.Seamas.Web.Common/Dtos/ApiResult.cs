@@ -1,4 +1,4 @@
-namespace Wang.Seamas.Web.Common.Dtos;
+namespace Wang.Seamas.Web.Common.DTOs;
 
 public class ApiResult
 {

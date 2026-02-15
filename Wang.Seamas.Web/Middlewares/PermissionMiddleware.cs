@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Wang.Seamas.Web.Attributes;
-using Wang.Seamas.Web.Services;
+using Wang.Seamas.Web.Interfaces;
 
 namespace Wang.Seamas.Web.Middlewares;
 

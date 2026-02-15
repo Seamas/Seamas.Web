@@ -1,4 +1,4 @@
-namespace Wang.Seamas.Web.Services;
+namespace Wang.Seamas.Web.Interfaces;
 
 public interface ITokenBlocklistService
 {

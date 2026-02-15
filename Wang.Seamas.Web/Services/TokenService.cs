@@ -4,9 +4,10 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Wang.Seamas.Web.Services.Model;
+using Wang.Seamas.Web.DTOs;
+using Wang.Seamas.Web.Interfaces;
 
-namespace Wang.Seamas.Web.Services.Impl;
+namespace Wang.Seamas.Web.Services;
 
 public class TokenService : ITokenService
 {

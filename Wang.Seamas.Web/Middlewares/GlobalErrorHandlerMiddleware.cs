@@ -1,4 +1,4 @@
-using Wang.Seamas.Web.Common.Dtos;
+using Wang.Seamas.Web.Common.DTOs;
 using Wang.Seamas.Web.Common.Exceptions;
 
 namespace Wang.Seamas.Web.Middlewares;

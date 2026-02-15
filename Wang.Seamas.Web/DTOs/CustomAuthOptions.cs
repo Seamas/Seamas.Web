@@ -1,4 +1,4 @@
-namespace Wang.Seamas.Web.Services.Model;
+namespace Wang.Seamas.Web.DTOs;
 
 public class CustomAuthOptions
 {

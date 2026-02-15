@@ -1,6 +1,6 @@
+using Wang.Seamas.Web.DTOs;
+using Wang.Seamas.Web.Interfaces;
 using Wang.Seamas.Web.Services;
-using Wang.Seamas.Web.Services.Impl;
-using Wang.Seamas.Web.Services.Model;
 
 namespace Wang.Seamas.Web.Extensions;
 
@@ -10,6 +10,11 @@ public static class ServiceCollectionExtension
     {
         services.Configure(configureOptions);
         
-        return services.AddScoped<ITokenService, TokenService>();
+        services.AddHttpContextAccessor();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
+        
+        services.AddScoped<ITokenService, TokenService>();
+
+        return services;
     }
 }

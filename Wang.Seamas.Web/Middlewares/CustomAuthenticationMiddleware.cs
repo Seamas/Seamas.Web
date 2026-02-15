@@ -2,8 +2,8 @@ using System.Security.Claims;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Wang.Seamas.Web.Common.Exceptions;
-using Wang.Seamas.Web.Services;
-using Wang.Seamas.Web.Services.Model;
+using Wang.Seamas.Web.DTOs;
+using Wang.Seamas.Web.Interfaces;
 
 namespace Wang.Seamas.Web.Middlewares;
 

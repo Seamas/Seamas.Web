@@ -1,6 +1,6 @@
-using Wang.Seamas.Web.Services.Model;
+using Wang.Seamas.Web.DTOs;
 
-namespace Wang.Seamas.Web.Services;
+namespace Wang.Seamas.Web.Interfaces;
 
 public interface ITokenService
 {
