@@ -4,7 +4,7 @@ namespace Wang.Seamas.Web.Common.DTOs;
 /// 分页查询结果
 /// </summary>
 /// <typeparam name="T">数据项类型</typeparam>
-public class PagedResult<T>
+public class ResultPage<T>
 {
     /// <summary>
     /// 当前页的数据列表
@@ -42,11 +42,11 @@ public class PagedResult<T>
     public bool HasNextPage => PageIndex < TotalPages;
 
     // 构造函数（可选）
-    public PagedResult()
+    public ResultPage()
     {
     }
 
-    public PagedResult(List<T> items, long totalCount, int pageIndex = 1, int pageSize = 10)
+    public ResultPage(List<T> items, long totalCount, int pageIndex = 1, int pageSize = 10)
     {
         Items = items ?? new List<T>();
         TotalCount = totalCount;
