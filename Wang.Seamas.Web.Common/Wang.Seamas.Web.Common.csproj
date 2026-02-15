@@ -8,7 +8,7 @@
         <LangVersion>13.0</LangVersion>
 
         <packageId>Wang.Seamas.Web.Common</packageId>
-        <Version>0.2.2</Version>
+        <Version>0.2.3</Version>
         <Authors>Seamas Wang</Authors>
         <Description>common classes</Description>
         <PackageProjectUrl>https://github.com/Seamas/Seamas.Web</PackageProjectUrl>
